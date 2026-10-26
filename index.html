@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en" data-theme="frost" data-mode="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Folio · a calm PDF reader</title>
+<meta name="description" content="Read your PDF books in a calm, customisable reader. 19 colour themes, 30+ fonts, reading speed, chapters, highlights and automatic bookmarks. Everything stays on your device.">
+<meta name="theme-color" content="#eceff4">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<script>
+  // Paint the right background before the CSS loads (avoids a white flash in dark themes).
+  try { var b = JSON.parse(localStorage.getItem('folio:themeBoot')); if (b) { var s = document.documentElement.style; s.background = b.bg; s.colorScheme = b.mode; } } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;600&family=Instrument+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></symbol>
+    <symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6.5 4h11v16.5L12 16.8l-5.5 3.7z"/></symbol>
+    <symbol id="i-type" viewBox="0 0 24 24"><path d="M3.5 19L9 5l5.5 14M5.3 14.5h7.4M14.5 19l3-7 3 7M15.7 16.6h3.6"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20v-6M12 20V5M19 20v-9"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8.5 5v14M15.5 5v14"/></symbol>
+    <symbol id="i-skip-back" viewBox="0 0 24 24"><path d="M6 5v14M19 5l-10 7 10 7z"/></symbol>
+    <symbol id="i-skip-fwd" viewBox="0 0 24 24"><path d="M18 5v14M5 5l10 7-10 7z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10 11v5.5M14 11v5.5"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19.5 8.5l-4-4L4 16zM13 7l4 4"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="18.5" cy="12" r="1.2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+    <symbol id="i-chev-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+    <symbol id="i-chev-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+    <symbol id="i-chev-down" viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.5 4 5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V5c-3-.5-6 0-8 1.5zM12 6.5v13"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4.5M7 9.5l5-5 5 5M4.5 20h15"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4.5V16M7 11l5 5 5-5M4.5 20h15"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+    <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 16v-4a8 8 0 0116 0v4M4 15h3.5v5H5.5A1.5 1.5 0 014 18.5zM20 15h-3.5v5h2a1.5 1.5 0 001.5-1.5z"/></symbol>
+    <symbol id="i-note" viewBox="0 0 24 24"><path d="M4 5h16v11H9.5L4.5 20z"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7.5a2 2 0 002 2h2.5"/></symbol>
+    <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></symbol>
+    <symbol id="i-page" viewBox="0 0 24 24"><path d="M6 3.5h8l4 4v13H6z"/><path d="M14 3.5v4h4M9 12h6M9 15.5h6"/></symbol>
+    <symbol id="i-reflow" viewBox="0 0 24 24"><path d="M4 6h16M4 10.5h10M4 15h16M4 19.5h8"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.2"/><circle cx="8" cy="17" r="2.2"/></symbol>
+    <symbol id="i-contrast" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 010 17z" fill="currentColor"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c.8 3.6 5.2 5.2 5.2 10.2a5.2 5.2 0 01-10.4 0c0-2 .9-3.4 2-4.4.1 1.8.9 2.8 2 3 .3-3-.7-5.2 1.2-8.8z"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12h.01"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4.5 5v5h5M5.2 10a8 8 0 11.8 6.5"/></symbol>
+    <symbol id="i-highlight" viewBox="0 0 24 24"><path d="M14.5 4.5l5 5-8.5 8.5H6.5v-4.5zM12 7l5 5M4 21h9"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.4 5.2 3.4 8.5s-1 6.100-3.400 8.500c-2.400-2.400-3.400-5.200-3.400-8.500s1-6.100 3.400-8.500z"/></symbol>
+  </defs>
+</svg>
+
+<div id="app">
+
+  <!-- ===================== LIBRARY ===================== -->
+  <section id="view-library" class="view">
+    <header class="topbar">
+      <a class="brand" href="#/" aria-label="Folio, library">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M7 3.5h12.5L26 10v18.5H7z" fill="currentColor"/><path d="M19.500 3.500V10H26" fill="none" stroke="var(--bg)" stroke-width="1.800" stroke-linejoin="round"/><path d="M11 17h11M11 21h11M11 25h6" stroke="var(--bg)" stroke-width="1.800" stroke-linecap="round"/></svg>
+        <span class="brand-name">Folio</span>
+      </a>
+      <label class="lib-search">
+        <svg class="ico" aria-hidden="true"><use href="#i-search"/></svg>
+        <input id="lib-q" type="search" placeholder="Search your library" autocomplete="off" aria-label="Search your library">
+      </label>
+      <div class="spacer"></div>
+      <button class="icon-btn" id="lib-appearance" aria-label="Appearance and themes" title="Appearance"><svg class="ico"><use href="#i-contrast"/></svg></button>
+      <button class="icon-btn" id="lib-stats" aria-label="Reading insights" title="Reading insights"><svg class="ico"><use href="#i-chart"/></svg></button>
+      <button class="btn primary" id="btn-add"><svg class="ico"><use href="#i-plus"/></svg><span>Add books</span></button>
+    </header>
+
+    <main class="lib-main">
+      <section id="resume" class="resume" hidden></section>
+
+      <section id="shelf" class="shelf" aria-labelledby="shelf-title">
+        <div class="shelf-head">
+          <h2 id="shelf-title">Library</h2>
+          <span id="shelf-count" class="muted"></span>
+          <div class="spacer"></div>
+          <label class="sort">
+            <span class="sr">Sort by</span>
+            <select id="lib-sort">
+              <option value="recent">Recently read</option>
+              <option value="added">Recently added</option>
+              <option value="title">Title</option>
+              <option value="progress">Progress</option>
+            </select>
+          </label>
+        </div>
+        <div id="shelf-tabs" class="shelf-tabs" role="tablist" aria-label="Shelves"></div>
+        <div id="grid" class="grid"></div>
+
+        <div id="empty" class="empty" hidden>
+          <div class="drop">
+            <svg class="empty-art" viewBox="0 0 120 90" aria-hidden="true">
+              <path d="M60 18C48 8 28 6 10 10v62c18-4 38-2 50 8 12-10 32-12 50-8V10c-18-4-38-2-50 8z" fill="var(--raised)" stroke="var(--line)" stroke-width="2"/>
+              <path d="M60 18v62" stroke="var(--line)" stroke-width="2"/>
+              <path d="M20 26c10-2 20-1 30 3M20 38c10-2 20-1 30 3M20 50c10-2 20-1 30 3M70 29c10-4 20-5 30-3M70 41c10-4 20-5 30-3" stroke="var(--muted)" stroke-width="2" stroke-linecap="round" fill="none" opacity=".55"/>
+              <path d="M84 6v22l7-5 7 5V6z" fill="var(--accent)"/>
+            </svg>
+            <h3>Drop a PDF here to start reading</h3>
+            <p>Your books stay in this browser, and Folio remembers exactly where you stopped in each one.</p>
+            <button class="btn primary big" id="btn-add-empty"><svg class="ico"><use href="#i-upload"/></svg><span>Choose PDF files</span></button>
+            <p class="muted small">19 themes · 30+ fonts · reading speed and time left · highlights and notes · read aloud</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="lib-foot">
+      <p class="muted">Books never leave this device. Clearing site data removes them, so back up your progress now and then.</p>
+      <div class="foot-actions">
+        <button class="link-btn" id="btn-export"><svg class="ico"><use href="#i-download"/></svg>Back up progress</button>
+        <button class="link-btn" id="btn-import"><svg class="ico"><use href="#i-upload"/></svg>Restore backup</button>
+        <span id="storage-info" class="muted small"></span>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ===================== READER ===================== -->
+  <section id="view-reader" class="view" hidden>
+    <header class="r-top" id="r-top">
+      <button class="icon-btn" id="r-back" aria-label="Back to library" title="Library (Esc)"><svg class="ico"><use href="#i-arrow-left"/></svg></button>
+      <div class="r-title">
+        <div class="r-book" id="r-book"></div>
+        <div class="r-chap" id="r-chap"></div>
+      </div>
+      <div class="r-tools">
+        <button class="icon-btn sec" id="r-mode" aria-label="Switch view" title="Original pages (O)"><svg class="ico"><use href="#i-page"/></svg></button>
+        <button class="icon-btn sec" id="r-search" aria-label="Search in book" title="Search (/)"><svg class="ico"><use href="#i-search"/></svg></button>
+        <button class="icon-btn" id="r-toc" aria-label="Contents and notes" title="Contents (C)"><svg class="ico"><use href="#i-list"/></svg></button>
+        <button class="icon-btn sec" id="r-mark" aria-label="Add bookmark" title="Bookmark this spot (B)"><svg class="ico"><use href="#i-bookmark"/></svg></button>
+        <button class="icon-btn sec" id="r-listen" aria-label="Read aloud" title="Read aloud (L)"><svg class="ico"><use href="#i-headphones"/></svg></button>
+        <button class="icon-btn sec" id="r-stats" aria-label="Reading insights" title="Insights (I)"><svg class="ico"><use href="#i-chart"/></svg></button>
+        <button class="icon-btn" id="r-appearance" aria-label="Appearance" title="Appearance (A)"><svg class="ico"><use href="#i-type"/></svg></button>
+        <button class="icon-btn more-btn" id="r-more" aria-label="More" aria-haspopup="menu"><svg class="ico"><use href="#i-more"/></svg></button>
+      </div>
+    </header>
+
+    <div class="r-stage" id="r-stage">
+      <div id="scroller" class="scroller" tabindex="-1">
+        <div id="pagedwrap" class="pagedwrap">
+          <article id="text" class="prose" lang="en"></article>
+        </div>
+      </div>
+      <div id="orig" class="orig" hidden></div>
+      <div id="r-loading" class="r-loading" hidden><div class="spinner"></div><span>Opening…</span></div>
+      <div id="r-notext" class="notext" hidden></div>
+    </div>
+
+    <footer class="r-bottom" id="r-bottom">
+      <div class="r-info">
+        <span id="r-pct" class="pct">0%</span>
+        <span id="r-where" class="where"></span>
+        <button id="r-left" class="left" title="Click to switch between book, chapter and page counts"></button>
+      </div>
+      <div class="scrub">
+        <div class="ticks" id="scrub-ticks" aria-hidden="true"></div>
+        <input id="scrub" type="range" min="0" max="1000" value="0" step="1" aria-label="Position in book">
+      </div>
+    </footer>
+
+    <div id="ruler" class="ruler" hidden></div>
+
+    <div id="tts-bar" class="tts-bar" hidden>
+      <button class="icon-btn" id="tts-prev" aria-label="Previous paragraph"><svg class="ico"><use href="#i-skip-back"/></svg></button>
+      <button class="icon-btn solid" id="tts-play" aria-label="Pause"><svg class="ico"><use href="#i-pause"/></svg></button>
+      <button class="icon-btn" id="tts-next" aria-label="Next paragraph"><svg class="ico"><use href="#i-skip-fwd"/></svg></button>
+      <label class="tts-field"><span class="sr">Speed</span>
+        <select id="tts-rate" aria-label="Reading speed">
+          <option value="0.75">0.75×</option><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="1.75">1.75×</option><option value="2">2×</option>
+        </select></label>
+      <label class="tts-field voice"><span class="sr">Voice</span><select id="tts-voice" aria-label="Voice"></select></label>
+      <button class="icon-btn" id="tts-close" aria-label="Stop reading aloud"><svg class="ico"><use href="#i-x"/></svg></button>
+    </div>
+
+    <div id="sel-pop" class="sel-pop" hidden role="toolbar" aria-label="Highlight"></div>
+  </section>
+</div>
+
+<!-- eye-comfort overlays -->
+<div id="dim" class="overlay-dim" aria-hidden="true"></div>
+<div id="warm" class="overlay-warm" aria-hidden="true"></div>
+
+<!-- ===================== DRAWERS ===================== -->
+<div id="scrim" class="scrim" hidden></div>
+
+<aside id="drawer-left" class="drawer left" aria-label="Contents, notes and search" hidden>
+  <div class="drawer-head">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tab-toc" aria-controls="pane-toc" aria-selected="true">Contents</button>
+      <button role="tab" id="tab-marks" aria-controls="pane-marks" aria-selected="false">Notes</button>
+      <button role="tab" id="tab-find" aria-controls="pane-find" aria-selected="false">Search</button>
+    </div>
+    <button class="icon-btn" data-close aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="drawer-body">
+    <div id="pane-toc" role="tabpanel" aria-labelledby="tab-toc"></div>
+    <div id="pane-marks" role="tabpanel" aria-labelledby="tab-marks" hidden></div>
+    <div id="pane-find" role="tabpanel" aria-labelledby="tab-find" hidden></div>
+  </div>
+</aside>
+
+<aside id="drawer-right" class="drawer right" aria-label="Appearance" hidden>
+  <div class="drawer-head">
+    <h2>Appearance</h2>
+    <button class="icon-btn" data-close aria-label="Close"><svg class="ico"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="drawer-body" id="appearance-body"></div>
+</aside>
+
+<dialog id="stats-dlg" class="sheet" aria-label="Reading insights"></dialog>
+<dialog id="keys-dlg" class="sheet small" aria-label="Keyboard shortcuts"></dialog>
+<dialog id="dialog" class="dlg"></dialog>
+
+<div id="menu" class="menu" role="menu" hidden></div>
+<div id="drop-overlay" class="drop-overlay" hidden><div><svg class="ico"><use href="#i-upload"/></svg><span>Drop PDFs to add them to your library</span></div></div>
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<input id="file-input" type="file" accept="application/pdf,.pdf" multiple hidden>
+<input id="import-input" type="file" accept="application/json,.json" hidden>
+<input id="font-input" type="file" accept=".ttf,.otf,.woff,.woff2,font/*" hidden>
+
+<noscript><p style="padding:2rem;font-family:system-ui">Folio needs JavaScript to read PDFs.</p></noscript>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
